@@ -1,0 +1,50 @@
+type Pair @entity {
+  id: ID!
+  tx: String
+  collection: String
+  owner: String
+  token: String
+  type: BigInt
+  assetRecipient: String
+  bondingCurve: String
+  bondingCurveType: BigInt
+  delta: BigInt
+  fee: BigInt
+  lastSpotPrice: BigInt
+  spotPrice: BigInt
+  is1155: Boolean!
+  nftIds: [BigInt!]
+  nftId1155: BigInt
+  lastNftCount: BigInt
+  nftCount: BigInt
+  lastNftCount1155: BigInt
+  nftCount1155: BigInt
+  ethBalance: BigInt
+  tokenBalance: BigInt
+  ethVolume: BigInt
+  swapCount: BigInt
+  createTimestamp: BigInt
+  updateTimestamp: BigInt
+}
+
+type ProtocolFeeMultiplier @entity {
+  id:  ID!
+  pfm: BigInt
+}
+
+type OperatorProtocolFeeMultiplier @entity {
+  id:  ID!
+  collection: String
+  totalFee: BigInt
+}
+
+
+
+
+
+
+
+
+
+
+

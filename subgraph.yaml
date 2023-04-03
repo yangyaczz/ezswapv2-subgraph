@@ -1,0 +1,99 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: PairFactory
+    network: matic
+    source:
+      address: '0x7452c6E193298A2Df001ea38b6369fbDc0A38123'
+      abi: LSSVMPairFactory
+      startBlock: 40745944
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+
+      entities:
+        - Pair
+        - ProtocolFeeMultiplier
+        - OperatorProtocolFeeMultiplier
+
+      abis:
+        - name: LSSVMPairFactory
+          file: ./abis/LSSVMPairFactory.json
+        - name: LSSVMPair
+          file: ./abis/LSSVMPair.json
+        - name: IERC721
+          file: ./abis/IERC721.json
+        - name: IERC20
+          file: ./abis/IERC20.json
+        - name: IERC1155
+          file: ./abis/IERC1155.json
+
+      eventHandlers:
+        - event: NewPair(address)
+          handler: handleNewPair
+        - event: NFTDeposit(address)
+          handler: handlerNFTDeposit
+        - event: ProtocolFeeMultiplierUpdate(uint256)
+          handler: handleProtocolFeeMultiplierUpdate
+        - event: OperatorProtocolFeeStatusUpdate(address,address,address,uint256,uint256)
+          handler: handleOperatorProtocolFeeStatusUpdate
+        
+
+      file: ./src/mapping-factory.ts
+
+
+templates:
+  - kind: ethereum
+    name: LSSVMPair
+    network: matic
+    source:
+      abi: LSSVMPair
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+
+        - Pair
+
+      abis:
+        - name: LSSVMPair
+          file: ./abis/LSSVMPair.json
+        - name: IERC721
+          file: ./abis/IERC721.json
+        - name: IERC20
+          file: ./abis/IERC20.json
+        - name: IERC1155
+          file: ./abis/IERC1155.json
+      eventHandlers:
+        - event: NFTWithdrawal()
+          handler: handleNFTWithdrawal
+        - event: SwapNFTInPair()
+          handler: handleSwapNFTInPair
+        - event: SwapNFTOutPair()
+          handler: handleSwapNFTOutPair
+        - event: TokenDeposit(uint256)
+          handler: handleTokenDeposit
+        - event: TokenWithdrawal(uint256)
+          handler: handleTokenWithdrawal
+        
+
+        - event: OwnershipTransferred(indexed address)
+          handler: handleOwnershipTransferred
+        - event: SpotPriceUpdate(uint128)
+          handler: handleSpotPriceUpdate
+        - event: FeeUpdate(uint96)
+          handler: handleFeeUpdate
+        - event: DeltaUpdate(uint128)
+          handler: handleDeltaUpdate
+        - event: AssetRecipientChange(address)
+          handler: handleAssetRecipientChange
+
+
+      file: ./src/mapping-pair.ts
+
+
+
